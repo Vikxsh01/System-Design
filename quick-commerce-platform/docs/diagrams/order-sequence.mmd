@@ -1,0 +1,26 @@
+sequenceDiagram
+    actor User
+    participant Web as React Web App
+    participant API as FastAPI
+    participant Product as Product/Inventory
+    participant Cart as Cart
+    participant Order as Order Service
+    participant Delivery as Delivery Service
+
+    User->>Web: Search product
+    Web->>API: GET /api/products/search?q=milk
+    API-->>Web: Product list
+    User->>Web: Add product to cart
+    Web->>API: POST /api/cart/items
+    API->>Product: Validate product and stock
+    Product-->>API: Available
+    API-->>Web: Updated cart
+    User->>Web: Place order
+    Web->>API: POST /api/orders
+    API->>Order: Validate cart and reserve stock
+    Order-->>API: Order created
+    API->>Delivery: Request delivery assignment (target architecture)
+    API-->>Web: 201 Created + order ID
+    User->>Web: Track delivery
+    Web->>API: GET /api/orders/{id}/delivery-status
+    API-->>Web: Current delivery status

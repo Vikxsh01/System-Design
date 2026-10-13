@@ -1,0 +1,8 @@
+flowchart LR
+    Client[React Client] --> LB[Load Balancer]
+    LB --> Gateway[API Gateway]
+    Gateway --> Services[Backend Services]
+    Services --> Cache[(Redis)]
+    Services --> DB[(Databases)]
+    Services --> Broker[Kafka / RabbitMQ]
+    Broker --> Workers[Inventory, Delivery, Notification Workers]
